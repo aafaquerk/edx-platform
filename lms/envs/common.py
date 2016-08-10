@@ -2953,4 +2953,4 @@ REDIRECT_CACHE_KEY_PREFIX = 'redirects'
 
 ############## Settings for LMS and Studio Context Sensitive Help ##############
 
-USE_OPEN_EDX_DOCUMENTATION = true
+USE_OPEN_EDX_DOCUMENTATION = True
