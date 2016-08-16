@@ -2,6 +2,12 @@
 # Most of the functionality is in the markdownToXml function,
 # which in fact is regular javascript within backticks.
 
+# CodeMirror.extendMode 'xml',
+#   commentStart: '<!--'
+#   commentEnd: '-->'
+#   newlineAfterToken: (type, content, textAfter, state) ->
+#     false
+
 class @MarkdownEditingDescriptor extends XModule.Descriptor
   # TODO really, these templates should come from or also feed the cheatsheet
   @multipleChoiceTemplate : "( ) #{gettext 'incorrect'}\n( ) #{gettext 'incorrect'}\n(x) #{gettext 'correct'}\n"
@@ -42,8 +48,19 @@ class @MarkdownEditingDescriptor extends XModule.Descriptor
     lineNumbers: true
     lineWrapping: true
     })
+
     if text
       @xml_editor.setValue(text)
+
+    totalLines = @xml_editor.lineCount()
+    totalChars = @xml_editor.getTextArea().value.length
+    @xml_editor.autoFormatRange {
+      line: 0
+      ch: 0
+    },
+      line: totalLines
+      ch: totalChars
+
     @setCurrentEditor(@xml_editor)
     $(@xml_editor.getWrapperElement()).toggleClass("CodeMirror-advanced");
     # Need to refresh to get line numbers to display properly.
