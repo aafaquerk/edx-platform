@@ -2,11 +2,11 @@
 # Most of the functionality is in the markdownToXml function,
 # which in fact is regular javascript within backticks.
 
-# CodeMirror.extendMode 'xml',
-#   commentStart: '<!--'
-#   commentEnd: '-->'
-#   newlineAfterToken: (type, content, textAfter, state) ->
-#     false
+CodeMirror.extendMode 'xml',
+  commentStart: '<!--'
+  commentEnd: '-->'
+  newlineAfterToken: (type, content, textAfter, state) ->
+    false
 
 class @MarkdownEditingDescriptor extends XModule.Descriptor
   # TODO really, these templates should come from or also feed the cheatsheet
