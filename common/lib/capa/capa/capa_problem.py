@@ -765,8 +765,8 @@ class LoncapaProblem(object):
 
         if problemtree.tag in inputtypes.registry.registered_tags():
             # If this is an inputtype subtree, let it render itself.
-            response_id = self.problem_id + '_' + problemtree.get('response_id')
-            response_data = self.problem_data[response_id]
+            #from nose.tools import set_trace; set_trace()
+            response_data = self.problem_data[problemid]
 
             status = 'unsubmitted'
             msg = ''
@@ -875,70 +875,87 @@ class LoncapaProblem(object):
                 entry.attrib['id'] = "%s_%i_%i" % (self.problem_id, response_id, answer_id)
                 answer_id = answer_id + 1
 
-            question_id = u'{}_{}'.format(self.problem_id, response_id)
-            label = ''
+            multiple_inputtypes = len(inputfields) > 1
+            question_id = inputfields[0].get('id')
             element_to_be_deleted = None
+            label = ''
 
-            # Extract label value from <label> tag or label attribute from inside the responsetype
-            responsetype_label_tag = response.find('label')
-            if responsetype_label_tag is not None:
-                label = responsetype_label_tag.text
-                # store <label> tag containing question text to delete
-                # it later otherwise question will be rendered twice
-                element_to_be_deleted = responsetype_label_tag
-            elif 'label' in inputfields[0].attrib:
-                # Extract label value from label attribute
-                # This is the case when we have a problem
-                # * with multiple questions without separation
-                # * single question with old XML format only
+            #from nose.tools import set_trace; set_trace()
+            if multiple_inputtypes:
+                response.set('multiple_inputtypes', 'true')
+                group_label_tag = response.find('label')
+                if group_label_tag is not None:
+                    group_label_tag.tag = 'p'
+                    group_label_tag.set('id', response_id_str)
 
-                label = inputfields[0].attrib['label']
-                # Get first <p> tag before responsetype, this <p> contains the question text.
-                p_tag = response.xpath('preceding-sibling::p[1]')
-
-                if p_tag:
-                    # It may be possible that label attribute value doesn't match with <p> tag
-                    # This happens when author updated the question <p> tag directly in XML but
-                    # didn't changed the label attribute value. In this case we will consider the
-                    # first <p> tag before responsetype as question.
-                    if label != p_tag[0].text:
-                        label = p_tag[0].text
-                    element_to_be_deleted = p_tag[0]
+                for inputfield in inputfields:
+                    problem_data[inputfield.get('id')] = {
+                        'label': inputfield.attrib.get('label', ''),
+                        'descriptions': {}
+                    }
             else:
-                # In this case the problems don't have tag or label attribute inside the responsetype
-                # so we will get the first preceding label tag w.r.t to this responsetype.
-                # This will take care of those multi-question problems that are not using --- in their markdown.
-                label_tag = response.xpath("preceding-sibling::label[1]")
-                if label_tag:
-                    label = label_tag[0].text
-                    element_to_be_deleted = label_tag[0]
+                # Extract label value from <label> tag or label attribute from inside the responsetype
+                responsetype_label_tag = response.find('label')
+                if responsetype_label_tag is not None:
+                    label = responsetype_label_tag.text
+                    # store <label> tag containing question text to delete
+                    # it later otherwise question will be rendered twice
+                    element_to_be_deleted = responsetype_label_tag
+                elif 'label' in inputfields[0].attrib:
+                    # Extract label value from label attribute
+                    # This is the case when we have a problem
+                    # * with multiple questions without separation
+                    # * single question with old XML format only
 
-            label = label.strip() or DEFAULT_QUESTION_TEXT
+                    label = inputfields[0].attrib['label']
+                    # Get first <p> tag before responsetype, this <p> contains the question text.
+                    p_tag = response.xpath('preceding-sibling::p[1]')
 
-            # delete label or p element only if responsetype is fully accessible
-            if response.tag in ACCESSIBLE_CAPA_RESPONSE_TYPES and element_to_be_deleted is not None:
-                element_to_be_deleted.getparent().remove(element_to_be_deleted)
+                    if p_tag:
+                        # It may be possible that label attribute value doesn't match with <p> tag
+                        # This happens when author updated the question <p> tag directly in XML but
+                        # didn't changed the label attribute value. In this case we will consider the
+                        # first <p> tag before responsetype as question.
+                        if label != p_tag[0].text:
+                            label = p_tag[0].text
+                        element_to_be_deleted = p_tag[0]
+                else:
+                    # In this case the problems don't have tag or label attribute inside the responsetype
+                    # so we will get the first preceding label tag w.r.t to this responsetype.
+                    # This will take care of those multi-question problems that are not using --- in their markdown.
+                    label_tag = response.xpath("preceding-sibling::label[1]")
+                    if label_tag:
+                        label = label_tag[0].text
+                        element_to_be_deleted = label_tag[0]
 
-            # for non-accessible responsetypes it may be possible that label attribute is not present
-            # in this case pass an empty label. remember label attribute is only used as value for aria-label
-            if response.tag not in ACCESSIBLE_CAPA_RESPONSE_TYPES and label == DEFAULT_QUESTION_TEXT:
-                label = ''
+                label = label.strip() or DEFAULT_QUESTION_TEXT
 
-            # Extract descriptions and set unique id on each description tag
-            description_tags = response.findall('description')
-            description_id = 1
-            descriptions = OrderedDict()
-            for description in description_tags:
-                descriptions[
-                    "description_%s_%i_%i" % (self.problem_id, response_id, description_id)
-                ] = description.text
-                response.remove(description)
-                description_id += 1
+                # delete label or p element only if responsetype is fully accessible
+                if response.tag in ACCESSIBLE_CAPA_RESPONSE_TYPES and element_to_be_deleted is not None:
+                    element_to_be_deleted.getparent().remove(element_to_be_deleted)
 
-            problem_data[question_id] = {
-                'label': label,
-                'descriptions': descriptions
-            }
+                # for non-accessible responsetypes it may be possible that label attribute is not present
+                # in this case pass an empty label. remember label attribute is only used as value for aria-label
+                if response.tag not in ACCESSIBLE_CAPA_RESPONSE_TYPES and label == DEFAULT_QUESTION_TEXT:
+                    label = ''
+
+                # Extract descriptions and set unique id on each description tag
+                description_tags = response.findall('description')
+                description_id = 1
+                descriptions = OrderedDict()
+                for description in description_tags:
+                    descriptions[
+                        "description_%s_%i_%i" % (self.problem_id, response_id, description_id)
+                    ] = description.text
+                    response.remove(description)
+                    description_id += 1
+
+                problem_data[question_id] = {
+                    'label': label,
+                    'descriptions': descriptions
+                }
+
+            #from nose.tools import set_trace; set_trace()
 
             # instantiate capa Response
             responsetype_cls = responsetypes.registry.get_class_for_tag(response.tag)
