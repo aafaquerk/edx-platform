@@ -886,7 +886,7 @@ class LoncapaProblem(object):
                 group_label_tag = response.find('label')
                 if group_label_tag is not None:
                     group_label_tag.tag = 'p'
-                    group_label_tag.set('id', response_id_str)
+                    group_label_tag.set('id', 'group-label-{}'.format(response_id_str))
 
                 for inputfield in inputfields:
                     problem_data[inputfield.get('id')] = {

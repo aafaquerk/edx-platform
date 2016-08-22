@@ -268,7 +268,7 @@ class LoncapaResponse(object):
             # add <div> to encapsulate all inputtypes
             content = group_div = etree.SubElement(tree, 'div')
             group_div.set('role', 'group')
-            group_div.set('aria-labelledby', self.xml.get('id'))
+            group_div.set('aria-labelledby', 'group-label-{}'.format(self.xml.get('id')))
         else:
             content = tree
 

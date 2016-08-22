@@ -35,7 +35,7 @@ class CAPAProblemTest(unittest.TestCase):
         self.assertEqual(
             problem.problem_data,
             {
-                '1_2':
+                '1_2_1':
                 {
                     'label': 'Select the correct synonym of paranoid?',
                     'descriptions': {'description_1_2_1': 'Only the paranoid survive.'}
@@ -62,7 +62,13 @@ class CAPAProblemTest(unittest.TestCase):
         problem = new_loncapa_problem(xml)
         self.assertEqual(
             problem.problem_data,
-            {'1_2': {'label': question, 'descriptions': {}}}
+            {
+                '1_2_1':
+                {
+                    'label': question,
+                    'descriptions': {}
+                }
+            }
 
         )
         self.assertEqual(
@@ -101,12 +107,12 @@ class CAPAProblemTest(unittest.TestCase):
         self.assertEqual(
             problem.problem_data,
             {
-                '1_2':
+                '1_2_1':
                 {
                     'label': question1,
                     'descriptions': {}
                 },
-                '1_3':
+                '1_3_1':
                 {
                     'label': question2,
                     'descriptions': {}
@@ -139,7 +145,7 @@ class CAPAProblemTest(unittest.TestCase):
         self.assertEqual(
             problem.problem_data,
             {
-                '1_2':
+                '1_2_1':
                 {
                     'label': '___ requires sacrifices.',
                     'descriptions': {
@@ -167,7 +173,7 @@ class CAPAProblemTest(unittest.TestCase):
         self.assertEqual(
             problem.problem_data,
             {
-                '1_2':
+                '1_2_1':
                 {
                     'label': DEFAULT_QUESTION_TEXT,
                     'descriptions': {
@@ -195,7 +201,7 @@ class CAPAProblemTest(unittest.TestCase):
         self.assertEqual(
             problem.problem_data,
             {
-                '1_2':
+                '1_2_1':
                 {
                     'label': 'Click the country which is home to the Pyramids.',
                     'descriptions': {}
@@ -224,7 +230,7 @@ class CAPAProblemTest(unittest.TestCase):
         self.assertEqual(
             problem.problem_data,
             {
-                '1_2':
+                '1_2_1':
                 {
                     'label': '',
                     'descriptions': {}
@@ -266,12 +272,12 @@ class CAPAProblemTest(unittest.TestCase):
         self.assertEqual(
             problem.problem_data,
             {
-                '1_2':
+                '1_2_1':
                 {
                     'label': 'Select the correct synonym of paranoid?',
                     'descriptions': {'description_1_2_1': 'Only the paranoid survive.'}
                 },
-                '1_3':
+                '1_3_1':
                 {
                     'label': 'What Apple device competed with the portable CD player?',
                     'descriptions': {'description_1_3_1': 'Device looks like an egg plant.'}
@@ -306,7 +312,7 @@ class CAPAProblemTest(unittest.TestCase):
         self.assertEqual(
             problem.problem_data,
             {
-                '1_2':
+                '1_2_1':
                 {
                     'label': question,
                     'descriptions': {}
