@@ -592,10 +592,10 @@ class ScriptProblemTypeTest(ProblemTypeTestBase, ProblemTypeTestMixin):
     factory = CustomResponseXMLFactory()
 
     factory_kwargs = {
-        'question_text': 'Enter two integers that sum to 10.',
         'cfn': 'test_add_to_ten',
         'expect': '10',
         'num_inputs': 2,
+        'group_label': 'Enter two integers that sum to 10.',
         'script': textwrap.dedent("""
             def test_add_to_ten(expect,ans):
                 try:

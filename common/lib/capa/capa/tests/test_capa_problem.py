@@ -323,3 +323,39 @@ class CAPAProblemTest(unittest.TestCase):
             len(problem.tree.xpath('//p[text()="{}"]'.format(question))),
             0
         )
+
+    def test_multiple_inputtypes(self):
+        """
+        Verify that group label and labels for individual inputtypes are extracted correctly.
+        """
+        group_label = 'Choose the correct color'
+        input1_label = 'What color is the sky?'
+        input2_label = 'What color are pine needles?'
+        xml = """
+        <problem>
+            <optionresponse>
+                <label>{}</label>
+                <optioninput options="('yellow','blue','green')" correct="blue" label="{}"/>
+                <optioninput options="('yellow','blue','green')" correct="green" label="{}"/>
+            </optionresponse>
+        </problem>
+        """.format(group_label, input1_label, input2_label)
+
+        problem = new_loncapa_problem(xml)
+        self.assertEqual(
+            problem.problem_data,
+            {
+                '1_2_1':
+                {
+                    'group_label': group_label,
+                    'label': input1_label,
+                    'descriptions': {}
+                },
+                '1_2_2':
+                {
+                    'group_label': group_label,
+                    'label': input2_label,
+                    'descriptions': {}
+                }
+            }
+        )

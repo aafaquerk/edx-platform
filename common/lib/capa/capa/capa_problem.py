@@ -875,21 +875,23 @@ class LoncapaProblem(object):
                 entry.attrib['id'] = "%s_%i_%i" % (self.problem_id, response_id, answer_id)
                 answer_id = answer_id + 1
 
-            multiple_inputtypes = len(inputfields) > 1
             question_id = inputfields[0].get('id')
             element_to_be_deleted = None
             label = ''
 
-            #from nose.tools import set_trace; set_trace()
-            if multiple_inputtypes:
+            # from nose.tools import set_trace; set_trace()
+            if len(inputfields) > 1:
                 response.set('multiple_inputtypes', 'true')
                 group_label_tag = response.find('label')
+                group_label_tag_text = ''
                 if group_label_tag is not None:
                     group_label_tag.tag = 'p'
-                    group_label_tag.set('id', 'group-label-{}'.format(response_id_str))
+                    group_label_tag.set('id', response_id_str)
+                    group_label_tag_text = group_label_tag.text
 
                 for inputfield in inputfields:
                     problem_data[inputfield.get('id')] = {
+                        'group_label': group_label_tag_text,
                         'label': inputfield.attrib.get('label', ''),
                         'descriptions': {}
                     }
