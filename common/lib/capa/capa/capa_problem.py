@@ -887,6 +887,7 @@ class LoncapaProblem(object):
                 if group_label_tag is not None:
                     group_label_tag.tag = 'p'
                     group_label_tag.set('id', response_id_str)
+                    group_label_tag.set('class', 'multi-inputs-group-label')
                     group_label_tag_text = group_label_tag.text
 
                 for inputfield in inputfields:
