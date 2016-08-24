@@ -1,7 +1,7 @@
 """Tools for helping with testing capa."""
 
 import gettext
-from path import path
+from path import path  # pylint: disable=no-name-in-module
 import os
 import os.path
 
@@ -27,6 +27,9 @@ def get_template(template_name):
 
 
 def capa_render_template(template, context):
+    """
+    Render template for a capa inputtype.
+    """
     return get_template(template).render_unicode(**context)
 
 

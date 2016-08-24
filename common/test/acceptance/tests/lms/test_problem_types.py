@@ -618,12 +618,6 @@ class ScriptProblemTypeTest(ProblemTypeTestBase, ProblemTypeTestMixin):
         Additional setup for ScriptProblemTypeTest
         """
         super(ScriptProblemTypeTest, self).setUp(*args, **kwargs)
-        self.problem_page.a11y_audit.config.set_rules({
-            'ignore': [
-                'section',  # TODO: AC-491
-                'label',  # TODO: AC-287
-            ]
-        })
 
     def answer_problem(self, correct):
         """
