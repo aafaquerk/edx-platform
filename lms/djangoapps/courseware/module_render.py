@@ -541,7 +541,7 @@ def get_module_system_for_user(user, student_data,  # TODO  # pylint: disable=to
             points_earned=event['value'],
             user=user,
             course_id=unicode(course_id),
-            usage_id=unicode(descriptor.location)
+            usage_id=unicode(descriptor.parent.location)
         )
 
     def publish(block, event_type, event):
