@@ -19,22 +19,26 @@
     }
   }
 
-  .search-button, .cancel-button,
-  .search-button:hover, .cancel-button:hover {
+  .search-button,
+  .cancel-button,
+  .search-button:hover,
+  .cancel-button:hover {
     @extend %t-icon6;
     @extend %t-regular;
     @include box-sizing(border-box);
-    @include right(12px);
+    @include right(1px);
     display: block;
     position: absolute;
-    top: 0;
+    top: 1px;
     border: none;
-    background: transparent;
-    padding: 0;
-    height: 35px;
-    color: $gray-l1;
+    border-left: 1px solid $gray-l2;
+    border-radius: 0;
+    background: $gray-l4;
+    padding: 0 10px;
+    height: 33px;
+    color: $base-font-color;
     box-shadow: none;
-    line-height: 35px;
+    line-height: 33px;
     text-shadow: none;
     text-transform: none;
   }
@@ -171,4 +175,3 @@
     }
   }
 }
-
