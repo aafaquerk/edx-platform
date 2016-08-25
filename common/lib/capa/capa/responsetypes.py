@@ -263,7 +263,6 @@ class LoncapaResponse(object):
         tree.set('tabindex', '-1')
         tree.set('aria-label', response_label)
 
-        #from nose.tools import set_trace; set_trace()
         if self.xml.get('multiple_inputtypes'):
             # add <div> to encapsulate all inputtypes
             content = group_div = etree.SubElement(tree, 'div')

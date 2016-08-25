@@ -765,7 +765,6 @@ class LoncapaProblem(object):
 
         if problemtree.tag in inputtypes.registry.registered_tags():
             # If this is an inputtype subtree, let it render itself.
-            #from nose.tools import set_trace; set_trace()
             response_data = self.problem_data[problemid]
 
             status = 'unsubmitted'
@@ -879,7 +878,6 @@ class LoncapaProblem(object):
             element_to_be_deleted = None
             label = ''
 
-            # from nose.tools import set_trace; set_trace()
             if len(inputfields) > 1:
                 response.set('multiple_inputtypes', 'true')
                 group_label_tag = response.find('label')
@@ -957,8 +955,6 @@ class LoncapaProblem(object):
                     'label': label,
                     'descriptions': descriptions
                 }
-
-            #from nose.tools import set_trace; set_trace()
 
             # instantiate capa Response
             responsetype_cls = responsetypes.registry.get_class_for_tag(response.tag)
