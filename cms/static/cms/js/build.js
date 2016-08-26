@@ -106,7 +106,7 @@
         shim: {
             'xmodule': {
                 deps: [
-                    'jquery', 'underscore', 'codemirror', 'tinymce',
+                    'jquery', 'underscore', 'codemirror', 'codemirror-formatting', 'tinymce',
                     'jquery.tinymce', 'jquery.qtip', 'jquery.scrollTo', 'jquery.flot',
                     'jquery.cookie', 'utility'
                 ]

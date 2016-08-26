@@ -27,6 +27,7 @@
             'domReady': 'js/vendor/domReady',
             'mustache': 'js/vendor/mustache',
             'codemirror': 'js/vendor/codemirror-compressed',
+            'codemirror-formatting': 'js/vendor/codemirror-formatting',
             'codemirror/stex': 'js/vendor/CodeMirror/stex',
             'jquery': 'common/js/vendor/jquery',
             'jquery-migrate': 'common/js/vendor/jquery-migrate',
@@ -195,6 +196,9 @@
             'codemirror': {
                 exports: 'CodeMirror'
             },
+            'codemirror-formatting': {
+                deps: ['codemirror']
+            },
             'codemirror/stex': {
                 deps: ['codemirror']
             },
@@ -306,5 +310,9 @@
             }
             // end of annotation tool files
         }
+    });
+
+    require(['codemirror-formatting'], function () {
+
     });
 }).call(this, require, define);

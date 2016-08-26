@@ -32,6 +32,7 @@ var options = {
         {pattern: 'xmodule_js/common_static/js/src/logger.js', included: true},
         {pattern: 'xmodule_js/common_static/js/test/i18n.js', included: true},
         {pattern: 'xmodule_js/common_static/js/vendor/codemirror-compressed.js', included: true},
+        {pattern: 'xmodule_js/common_static/js/vendor/codemirror-formatting.js', included: true},
         {pattern: 'xmodule_js/common_static/js/vendor/jquery.cookie.js', included: true},
         {pattern: 'xmodule_js/common_static/js/vendor/flot/jquery.flot.js', included: true},
         {pattern: 'xmodule_js/common_static/coffee/src/jquery.immediateDescendents.js', included: true},

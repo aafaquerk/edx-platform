@@ -4,7 +4,8 @@ define(['js/views/validation',
         'gettext',
         'codemirror',
         'js/views/modals/validation_error_modal',
-        'edx-ui-toolkit/js/utils/html-utils'],
+        'edx-ui-toolkit/js/utils/html-utils',
+        'codemirror-formatting'],
     function(ValidatingView, $, _, gettext, CodeMirror, ValidationErrorModal, HtmlUtils) {
         var AdvancedView = ValidatingView.extend({
             error_saving: 'error_saving',

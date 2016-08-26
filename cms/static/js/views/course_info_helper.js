@@ -1,4 +1,4 @@
-define(['codemirror', 'js/utils/handle_iframe_binding', 'utility'],
+define(['codemirror', 'js/utils/handle_iframe_binding', 'utility', 'codemirror-formatting'],
     function(CodeMirror, IframeBinding) {
         var editWithCodeMirror = function(model, contentName, baseAssetUrl, textArea) {
             var content = rewriteStaticLinks(model.get(contentName), baseAssetUrl, '/static/');

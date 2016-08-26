@@ -1,6 +1,6 @@
 define(['js/views/validation', 'codemirror', 'js/models/course_update',
         'common/js/components/views/feedback_prompt', 'common/js/components/views/feedback_notification',
-        'js/views/course_info_helper', 'js/utils/modal', 'js/utils/date_utils'],
+        'js/views/course_info_helper', 'js/utils/modal', 'js/utils/date_utils', 'codemirror-formatting'],
     function(ValidatingView, CodeMirror, CourseUpdateModel, PromptView, NotificationView,
         CourseInfoHelper, ModalUtils, DateUtils) {
         'use strict';
