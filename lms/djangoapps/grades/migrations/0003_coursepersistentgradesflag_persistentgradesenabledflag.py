@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='CourseAuthorization',
+            name='CoursePersistentGradesFlag',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('change_date', models.DateTimeField(auto_now_add=True, verbose_name='Change date')),
@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='SubsectionGradesEnabledFlag',
+            name='PersistentGradesEnabledFlag',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('change_date', models.DateTimeField(auto_now_add=True, verbose_name='Change date')),
