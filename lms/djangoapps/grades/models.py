@@ -12,6 +12,7 @@ import json
 import logging
 from operator import attrgetter
 
+from config_models.models import ConfigurationModel
 from django.db import models, transaction
 from django.db.utils import IntegrityError
 from model_utils.models import TimeStampedModel
@@ -131,6 +132,9 @@ class VisibleBlocks(models.Model):
     hashed = models.CharField(max_length=100, unique=True)
 
     objects = VisibleBlocksQuerySet.as_manager()
+
+    class Meta(object):
+        app_label = "grades"
 
     def __unicode__(self):
         """
@@ -336,3 +340,59 @@ class PersistentSubsectionGrade(TimeStampedModel):
         self.possible_graded = possible_graded
         self.visible_blocks_id = visible_blocks_hash  # pylint: disable=attribute-defined-outside-init
         self.save()
+
+
+class SubsectionGradesEnabledFlag(ConfigurationModel):
+    """
+    Enables subsection grades across the platform.
+    When this feature flag is set to true, individual courses
+    must also have subsection grades enabled for the
+    feature to take effect.
+    """
+
+    @classmethod
+    def feature_enabled(cls, course_id=None):
+        """
+        Looks at the currently active configuration model to determine whether the subsection grades feature is
+        available.
+
+        If the flag is not enabled, the feature is not available.
+        If the flag is enabled and the provided course_id is authorized,
+            the feature is available.
+        If the flag is enabled and course-specific authorization is not required, the feature is available.
+        """
+        if not SubsectionGradesEnabledFlag.is_enabled():
+            return False
+        elif course_id:
+            return CourseAuthorization.subsection_grades_enabled(course_id)
+        return True
+
+    class Meta(object):
+        app_label = "grades"
+
+    def __unicode__(self):
+        current_model = SubsectionGradesEnabledFlag.current()
+        return u"SubsectionGradesFlag: enabled {}".format(
+            current_model.is_enabled()
+        )
+
+
+class CourseAuthorization(ConfigurationModel):
+    """
+    Authorizes subsection grades for a specific
+    course. Only has an effect if the general
+    flag above is set to True.
+    """
+
+    class Meta(object):
+        app_label = "grades"
+
+    # The course that these features are attached to.
+    course_id = CourseKeyField(max_length=255, db_index=True, unique=True)
+
+    def __unicode__(self):
+        not_en = "Not "
+        if self.enabled:
+            not_en = ""
+        # pylint: disable=no-member
+        return u"Course '{}': Subsection Grades {}Enabled".format(self.course_id.to_deprecated_string(), not_en)
